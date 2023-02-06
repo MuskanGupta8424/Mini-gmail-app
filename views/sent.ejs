@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <title>EmailSent Page!</title>
+    <style>
+        *::-webkit-scrollbar{
+        width: 10px;
+        }
+        *::-webkit-scrollbar-thumb{
+            background-color: rgba(0, 0, 0, 0.185);
+            scroll-behavior: smooth;      
+        }
+        #composediv{
+          transform: translateY(100%);
+          transition: all cubic-bezier(0.19, 1, 0.22, 1) 1s;
+        }
+    </style>
+  </head>
+  <body>
+    <div class="container-lg mt-2" >
+      <div id="composediv" class="container p-2" style="width:22rem; background-color: #f3efefdc; position:fixed ; bottom:0%; right:5%; border-top-left-radius: 10px; border-top-right-radius: 10px; z-index:9;" >
+       <button id="closeBtn" class="btn">close</button>
+        <form action="/compose" method="post">
+          <div class="mb-3 " >
+            <label for="exampleInputEmail1" class="form-label">Sending mail :</label>
+            <input type="email" name="receiveremail" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+          </div>
+          <div class="form-floating">
+            <textarea class="form-control" name="mailtext" placeholder="Leave a comment here" id="floatingTextarea" style="resize:none; height: 12rem;" ></textarea>
+            <label  for="floatingTextarea">Comments</label>
+          </div>
+          <button type="submit" class="btn btn-primary mt-2">Send email</button>
+        </form>
+      </div>
+
+      <h2>Hii , <span class="display-1 fs-1"><%=user.username %></span></h2>
+      <h1 class="display-6">Welcome Back to the SheryMail.</h1>
+      <hr>
+<div class="d-flex align-items-end">
+      <a href="/profile" class="btn btn-warning text-light mt-2">Check inbox mails </a>
+      <a href="/logout" class="btn btn-success mx-3">Logout</a>
+
+     </div> 
+      <hr>
+      <div class="card" style="width:100%;height:300px;border: none; position: relative; overflow-y: auto;">
+        <% user.sentMails.forEach(function(mail){%>
+        <div class="card" style="width:100%">
+        <div class="card-body ">
+          <h5 class="card-title"><%= mail.receiver %></h5>
+          <h6 class="card-subtitle mb-2 text-muted"></h6>
+          <p class="card-text"><%= mail.mailtext %></p>
+          <a href="#" class="card-link  text-success">Read More</a>
+          <a href="/delete/mail/<%=mail._id %>" class="card-link text-decoration-none text-danger"><i class="ri-delete-bin-2-fill"></i></a>
+        </div>
+      </div>
+      <%})%>
+      </div>
+
+</div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script>
+        document.querySelector("#closeBtn").addEventListener('click',function (){
+        document.querySelector('#composediv').style.transform ='translateY(100%)';
+      })
+      document.querySelector("#createBtn").addEventListener('click',function (){
+        document.querySelector('#composediv').style.transform ='translateY(0%)';
+      })
+    </script>
+  </body>
+</html>
